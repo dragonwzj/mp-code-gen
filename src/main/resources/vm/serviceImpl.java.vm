@@ -1,0 +1,62 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Autowired
+    private ${table.mapperName} mapper;
+
+    public boolean save(${entity} entity){
+        return super.save(entity);
+    }
+
+    public ${entity} getById(int id){
+        return super.getById(id);
+    }
+
+    public ${entity} updateById(${entity} entity){
+        return super.updateById(entity);
+    }
+
+    public IPage<${entity}> page(${entity} entity, PageDomain pageDomain){
+
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+#foreach($field in ${table.fields})
+#if(${field.capitalName.toUpperCase()} != "ID" && ${field.capitalName.toUpperCase()} != "DELFLAG" &&
+${field.capitalName.toUpperCase()} != "CREATEDBY" && ${field.capitalName.toUpperCase()} != "CREATEDTIME" &&
+${field.capitalName.toUpperCase()} != "UPDATEDTIME" && ${field.capitalName.toUpperCase()} != "UPDATEDBY")
+                // ${field.comment}
+                .eq(entity.get${field.capitalName}() != null, ${entity}::get${field.capitalName}, entity.get${field.capitalName}())
+#end
+#end
+        ;
+
+        return super.page(new Page<Promotion>(pageDomain.getPageNum(), pageDomain.getPageSize()), queryWrapper);
+    }
+
+    public void removeById(int id){
+        return super.removeById(id);
+    }
+
+}
+#end
