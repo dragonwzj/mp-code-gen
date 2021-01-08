@@ -16,14 +16,14 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
-    boolean save(${entity} entity);
+    boolean add(${entity} entity);
 
-    ${entity} getById(int id);
+    ${entity} selectById(int id);
 
-    ${entity} updateById(${entity} entity);
+    ${entity} modifyById(${entity} entity);
 
-    IPage<${entity}> page(${entity} entity, PageDomain pageDomain);
+    IPage<${entity}> selectByPage(${entity} entity, PageDomain pageDomain);
 
-    void removeById(int id);
+    void deleteById(int id);
 }
 #end

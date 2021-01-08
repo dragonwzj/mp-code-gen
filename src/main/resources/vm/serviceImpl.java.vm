@@ -25,19 +25,19 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Autowired
     private ${table.mapperName} mapper;
 
-    public boolean save(${entity} entity){
+    public boolean add(${entity} entity){
         return super.save(entity);
     }
 
-    public ${entity} getById(int id){
+    public ${entity} selectById(int id){
         return super.getById(id);
     }
 
-    public ${entity} updateById(${entity} entity){
+    public ${entity} modifyById(${entity} entity){
         return super.updateById(entity);
     }
 
-    public IPage<${entity}> page(${entity} entity, PageDomain pageDomain){
+    public IPage<${entity}> selectByPage(${entity} entity, PageDomain pageDomain){
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
@@ -54,7 +54,7 @@ ${field.capitalName.toUpperCase()} != "UPDATEDTIME" && ${field.capitalName.toUpp
         return super.page(new Page<Promotion>(pageDomain.getPageNum(), pageDomain.getPageSize()), queryWrapper);
     }
 
-    public void removeById(int id){
+    public void deleteById(int id){
         return super.removeById(id);
     }
 

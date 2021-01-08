@@ -41,33 +41,33 @@ public class ${table.controllerName} {
 
     @PostMapping({"save"})
     public R save(@RequestBody @Valid $!{table.entityName} entity) {
-        if(service.save(entity)){
+        if(service.add(entity)){
             return R.ok();
         }else{
             return R.error();
         }
     }
 
-    @GetMapping({"/getOne/{id}"})
+    @GetMapping({"/detail/{id}"})
     public R getById(@PathVariable("id") int id) {
-        return R.ok(service.getById(id));
+        return R.ok(service.selectById(id));
     }
 
     @PutMapping({"update"})
     public R update(@RequestBody $!{table.entityName} entity) {
-        return R.ok(service.updateById(entity));
+        return R.ok(service.modifyById(entity));
     }
 
     @GetMapping({"list"})
     public R list($!{table.entityName} entity, PageDomain pageDomain){
-        return R.ok(service.page(entity, pageDomain));
+        return R.ok(service.selectByPage(entity, pageDomain));
     }
 
     @DeleteMapping({"/remove/{id}"})
     public R remove(@PathVariable("id") int id) {
         var entity = service.getById(id);
         if(Objects.nonNull(entity)){
-            service.removeById(id);
+            service.deleteById(id);
         }
         return R.ok();
     }
