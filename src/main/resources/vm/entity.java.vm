@@ -63,6 +63,8 @@ public class ${entity} implements Serializable {
 #if(${field.keyFlag})
 #set($keyPropertyName=${field.propertyName})
 #end
+
+## 表备注，作者，日期
 #if("$!field.comment" != "")
     /**
      * ${field.comment}

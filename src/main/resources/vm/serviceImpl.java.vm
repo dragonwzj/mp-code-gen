@@ -41,6 +41,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
+## 字段中的ID，createdBy，createdTime，updatedBy，updatedTime，delFlag不作为查询条件
 #foreach($field in ${table.fields})
 #if(${field.capitalName.toUpperCase()} != "ID" && ${field.capitalName.toUpperCase()} != "DELFLAG" &&
 ${field.capitalName.toUpperCase()} != "CREATEDBY" && ${field.capitalName.toUpperCase()} != "CREATEDTIME" &&
