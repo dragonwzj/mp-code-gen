@@ -4,10 +4,9 @@ package ${package.Entity};
 import ${pkg};
 #end
 import com.baomidou.mybatisplus.annotation.TableField;
-#if(${field.propertyType.equals("LocalDateTime")} || ${field.propertyType.equals("Date")})
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-#end
+import java.time.LocalDateTime;
 
 #if(${cfg.entityLombokModel})
 import com.baomidou.mybatisplus.annotations.Version;
@@ -102,12 +101,11 @@ public class ${entity} implements Serializable {
     @TableLogic
 #end
 #if(${field.propertyType.equals("LocalDateTime")} || ${field.propertyType.equals("Date")})
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 #end
     @TableField("${field.name}")
     private ${field.propertyType} ${field.propertyName};
-
 #end
 ## ----------  END 字段循环遍历  ----------
 

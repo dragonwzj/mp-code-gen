@@ -5,6 +5,10 @@ import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
@@ -25,18 +29,26 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Autowired
     private ${table.mapperName} mapper;
 
+    @Override
     public boolean add(${entity} entity){
         return super.save(entity);
     }
 
+    @Override
     public ${entity} selectById(int id){
         return super.getById(id);
     }
 
+    @Override
     public ${entity} modifyById(${entity} entity){
-        return super.updateById(entity);
+        if(updateById(entity)){
+            return super.getById(entity.getId());
+        }else {
+            return null;
+        }
     }
 
+    @Override
     public IPage<${entity}> selectByPage(${entity} entity, PageDomain pageDomain){
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
@@ -52,10 +64,11 @@ ${field.capitalName.toUpperCase()} != "UPDATEDTIME" && ${field.capitalName.toUpp
 #end
         ;
 
-        return super.page(new Page<Promotion>(pageDomain.getPageNum(), pageDomain.getPageSize()), queryWrapper);
+        return super.page(new Page<${entity}>(pageDomain.getPageNum(), pageDomain.getPageSize()), queryWrapper);
     }
 
-    public void deleteById(int id){
+    @Override
+    public boolean deleteById(int id){
         return super.removeById(id);
     }
 

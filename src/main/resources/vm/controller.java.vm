@@ -1,8 +1,12 @@
 package ${package.Controller};
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import com.yizu.obcase.common.utils.R;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
 #else
@@ -39,8 +43,13 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} service;
 
+    /**
+     * 新增
+     * @param entity
+     * @return
+     */
     @PostMapping({"save"})
-    public R save(@RequestBody @Valid $!{table.entityName} entity) {
+    public R save(@RequestBody @Validated $!{table.entityName} entity) {
         if(service.add(entity)){
             return R.ok();
         }else{
@@ -48,28 +57,53 @@ public class ${table.controllerName} {
         }
     }
 
+    /**
+     * 详情
+     * @param id
+     * @return
+     */
     @GetMapping({"/detail/{id}"})
     public R getById(@PathVariable("id") int id) {
         return R.ok(service.selectById(id));
     }
 
+    /**
+     * 更新
+     * @param entity
+     * @return
+     */
     @PutMapping({"update"})
     public R update(@RequestBody $!{table.entityName} entity) {
-        return R.ok(service.modifyById(entity));
+        $!{table.entityName} newEntity = service.modifyById(entity);
+        if (null != newEntity) {
+            return R.ok(newEntity);
+        }else {
+            return R.error();
+        }
     }
 
-    @GetMapping({"list"})
-    public R list($!{table.entityName} entity, PageDomain pageDomain){
+    /**
+     * 分页查询列表
+     * @param entity
+     * @param pageDomain
+     * @return
+     */
+    @GetMapping({"listByPage"})
+    public R listByPage($!{table.entityName} entity, PageDomain pageDomain){
         return R.ok(service.selectByPage(entity, pageDomain));
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     @DeleteMapping({"/remove/{id}"})
     public R remove(@PathVariable("id") int id) {
-        var entity = service.getById(id);
-        if(Objects.nonNull(entity)){
-            service.deleteById(id);
+        if (service.deleteById(id)) {
+            return R.ok();
         }
-        return R.ok();
+        return R.error();
     }
 }
 

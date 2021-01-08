@@ -12,4 +12,9 @@
 #end
 	</resultMap>
 
+    <sql id="BaseColumns">
+        #foreach($field in ${table.fields})${field.name}#if($foreach.hasNext), #end#end
+
+    </sql>
+
 </mapper>

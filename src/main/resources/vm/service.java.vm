@@ -1,5 +1,6 @@
 package ${package.Service};
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 
@@ -24,6 +25,6 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
     IPage<${entity}> selectByPage(${entity} entity, PageDomain pageDomain);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 }
 #end
